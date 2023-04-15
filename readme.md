@@ -73,6 +73,7 @@ class User(database.Model):
     image: str = ImageColumn(extensions=["jpg", "png"], store=uploads, default="default.png", label="Image")
     last_login: datetime = DateTimeColumn()
     hash: bytes = BytesColumn(null=False)
+    is_active: bool = BooleanColumn()
 
     @property
     def tag(self):
@@ -87,7 +88,7 @@ class User(database.Model):
 class PendingReg(database.Model):
     code: str
     email_addr: str = EmailColumn(label="Email Address")
-    desc: str = QuillEditorColumn(editor="full", label="Description")
+    desc: str = Column(editor="full", label="Description")
     hash: bytes = BytesColumn(null=False)
     username: str = Column(null=False)
     creation_date: datetime = DateTimeColumn(null=False, label="Date Created")
