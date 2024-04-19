@@ -33,7 +33,7 @@ push            = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
-"__init__.py" = ["{version}"]
+"sqlite_orm/__init__.py" = ["{version}"]
 
 [project.urls]
 Homepage = "https://github.com/7HR4IZ3/Sqlite-ORM"
