@@ -4,7 +4,7 @@ Sqlite orm modeled after django orm
 
 # Quick Demo
 ```python
-from sqlite import SqliteDatabase
+from sqlite_orm import SqliteDatabase
 
 db = SqliteDatabase(":memory:")
 
@@ -57,9 +57,9 @@ notes = Note.objects.get(user=bob)
 
 ## Authentication and Authorization model demo
 ```python
-from sqlite import SqliteDatabase
-from sqlite.columns import *
-from sqlite.files import FileSystemStorage
+from sqlite_orm import SqliteDatabase
+from sqlite_orm.columns import *
+from sqlite_orm.files import FileSystemStorage
 
 database = SqliteDatabase("./db.sqlite")
 
