@@ -36,4 +36,4 @@ push            = false
 "__init__.py" = ["{version}"]
 
 [project.urls]
-Homepage = "https://github.com/7HR4IZ3/Sqlite-DB"
+Homepage = "https://github.com/7HR4IZ3/Sqlite-ORM"
