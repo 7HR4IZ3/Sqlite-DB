@@ -1,41 +1,61 @@
-# Sqlite-DB
-Sqlite orm modelled after django orm
+# Sqlite ORM
+
+Sqlite orm modeled after django orm
 
 # Quick Demo
 ```python
 from sqlite import SqliteDatabase
 
-db = SqliteDatabase("./db.sqlite")
+db = SqliteDatabase(":memory:")
 
+# Catch all errors
 @db.on("error")
 def _(err):
     raise err
 
+
 class Session(db.Model):
-    sid: int
-    data: str
+    sid: int # Type Number
+    data: str # Type Text
+
 
 class User(db.Model):
     name: str
-    age: int
-    password: bytes
+    age: int 
+    password: bytes # Type blob
 
+    # Instance method
     def verify_password(self, password):
-        return verify_password(
-            self.name, password, self.password
-        )
+        return self.password == password
 
 
 class Note(db.Model):
-    name: str
+    name: str # Not null field
     body: str = '' # Default field
     user: User # Foreign Key assignment
     users: list[User] # Many to one keys
 
+# Get or create entry
+bob = User(name="Bob", age=7, password=b"MyAwesomePassword")
+
+# Check if entry exists
+print(bob.id != None)
+
+# Update entry
+bob.age = (bob.age + 1)
+
+# Save entry
+bob.save()
+
+# Call nstance method
+print(bob.verify_password(b""))
+
+# Get multiple entries
+notes = Note.objects.get(user=bob)
+
 ```
 
-Or for more control on how the models are created
-Authentication and authorization model demo
+## Authentication and Authorization model demo
 ```python
 from sqlite import SqliteDatabase
 from sqlite.columns import *
@@ -48,7 +68,7 @@ def error(e):
     raise e
 
 # For easier access to files and folders
-# Call create to create directory if not exists
+# Call 'create' to create directory if not exists
 store = FileSystemStorage(directory="./media").create()
 
 # Go to subdirectory
@@ -67,10 +87,21 @@ class Role(database.Model):
 
 class User(database.Model):
     username: str
-    email_addr: str = EmailColumn(label="Email Address", helper_text="User's email address: '@' must be present", unique=True)
-    desc: str = RichTextColumn(label="Description", helper_text="Description of the user")
+    email_addr: str = EmailColumn(
+      label="Email Address",
+      helper_text="User's email address: '@' must be present",
+      unique=True
+    )
+    desc: str = Column(
+      label="Description",
+      helper_text="Description of the user"
+    )
     creation_date: datetime = DateTimeColumn(null=False)
-    image: str = ImageColumn(extensions=["jpg", "png"], store=uploads, default="default.png", label="Image")
+    image: str = ImageColumn(
+      extensions=["jpg", "png"],
+      store=uploads, default="default.png",
+      label="Image"
+    )
     last_login: datetime = DateTimeColumn()
     hash: bytes = BytesColumn(null=False)
     is_active: bool = BooleanColumn()
